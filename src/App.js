@@ -54,7 +54,6 @@ function App() {
   const resultsRef = useRef(null);
 
   function showResults() {
-    console.log(permissionResults);
     resultsRef.current.innerHTML = `<pre>${JSON.stringify(
       permissionResults,
       null,
