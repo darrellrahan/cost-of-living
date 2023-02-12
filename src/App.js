@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-function CheckboxRow({ label }) {
+function CheckboxRow({ label, setPermissionResults }) {
   const [permissions, setPermissions] = useState({
     read: false,
     write: false,
     delete: false,
   });
 
-  console.log(permissions);
+  useEffect(() => {
+    setPermissionResults((prev) => ({ ...prev, [label]: permissions }));
+  }, [permissions, label, setPermissionResults]);
 
   function handleCheckboxChange(type, isChecked) {
     if (type === "delete") {
@@ -48,6 +50,18 @@ function CheckboxRow({ label }) {
 }
 
 function App() {
+  const [permissionResults, setPermissionResults] = useState({});
+  const resultsRef = useRef(null);
+
+  function showResults() {
+    console.log(permissionResults);
+    resultsRef.current.innerHTML = `<pre>${JSON.stringify(
+      permissionResults,
+      null,
+      4
+    )}</pre>`;
+  }
+
   return (
     <div className="app-container">
       <div className="grid">
@@ -55,12 +69,13 @@ function App() {
         <label>read</label>
         <label>write</label>
         <label>delete</label>
-        <CheckboxRow label="t1" />
-        <CheckboxRow label="t2" />
-        <CheckboxRow label="t3" />
-        <CheckboxRow label="t4" />
+        <CheckboxRow label="t1" setPermissionResults={setPermissionResults} />
+        <CheckboxRow label="t2" setPermissionResults={setPermissionResults} />
+        <CheckboxRow label="t3" setPermissionResults={setPermissionResults} />
+        <CheckboxRow label="t4" setPermissionResults={setPermissionResults} />
       </div>
-      {/* <button>Submit</button> */}
+      <button onClick={showResults}>Submit</button>
+      <div ref={resultsRef}></div>
     </div>
   );
 }
