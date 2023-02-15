@@ -1,80 +1,92 @@
-import { useEffect, useRef, useState } from "react";
-
-function CheckboxRow({ label, setPermissionResults }) {
-  const [permissions, setPermissions] = useState({
-    read: false,
-    write: false,
-    delete: false,
-  });
-
-  useEffect(() => {
-    setPermissionResults((prev) => ({ ...prev, [label]: permissions }));
-  }, [permissions, label, setPermissionResults]);
-
-  function handleCheckboxChange(type, isChecked) {
-    if (type === "delete") {
-      setPermissions((prev) => {
-        return isChecked
-          ? { ...prev, read: true, write: true, delete: true }
-          : { ...prev, delete: false };
-      });
-    } else {
-      setPermissions((prev) => {
-        return isChecked
-          ? { ...prev, [type]: true }
-          : { ...prev, [type]: false, delete: false };
-      });
-    }
-  }
-
-  return (
-    <>
-      <label>{label}</label>
-      <input
-        type="checkbox"
-        checked={permissions.read}
-        onChange={(e) => handleCheckboxChange("read", e.target.checked)}
-      />
-      <input
-        type="checkbox"
-        checked={permissions.write}
-        onChange={(e) => handleCheckboxChange("write", e.target.checked)}
-      />
-      <input
-        type="checkbox"
-        checked={permissions.delete}
-        onChange={(e) => handleCheckboxChange("delete", e.target.checked)}
-      />
-    </>
-  );
-}
+import { useState } from "react";
 
 function App() {
-  const [permissionResults, setPermissionResults] = useState({});
-  const resultsRef = useRef(null);
+  const [coordinates, setCoordinates] = useState({
+    currentCoordinates: [],
+    poppedCoordinates: [],
+  });
 
-  function showResults() {
-    resultsRef.current.innerHTML = `<pre>${JSON.stringify(
-      permissionResults,
-      null,
-      4
-    )}</pre>`;
+  function handleClick(e) {
+    const newCurrentCoordinates = [...coordinates.currentCoordinates];
+    newCurrentCoordinates.push({ x: e.clientX, y: e.clientY });
+
+    setCoordinates({
+      ...coordinates,
+      currentCoordinates: newCurrentCoordinates,
+    });
+  }
+
+  function handleCoordinate(type) {
+    const newCurrentCoordinates = [...coordinates.currentCoordinates];
+    const newPoppedCoordinates = [...coordinates.poppedCoordinates];
+
+    const poppedCoordinate =
+      type === "undo"
+        ? newCurrentCoordinates.pop()
+        : newPoppedCoordinates.pop();
+
+    type === "undo"
+      ? newPoppedCoordinates.push(poppedCoordinate)
+      : newCurrentCoordinates.push(poppedCoordinate);
+
+    if (!poppedCoordinate) return;
+
+    setCoordinates({
+      currentCoordinates: newCurrentCoordinates,
+      poppedCoordinates: newPoppedCoordinates,
+    });
   }
 
   return (
     <div className="app-container">
-      <div className="grid">
-        <span></span>
-        <label>read</label>
-        <label>write</label>
-        <label>delete</label>
-        <CheckboxRow label="t1" setPermissionResults={setPermissionResults} />
-        <CheckboxRow label="t2" setPermissionResults={setPermissionResults} />
-        <CheckboxRow label="t3" setPermissionResults={setPermissionResults} />
-        <CheckboxRow label="t4" setPermissionResults={setPermissionResults} />
+      <div className="top">
+        <div className="buttons">
+          <button
+            disabled={coordinates.currentCoordinates.length === 0 && true}
+            style={{
+              opacity: coordinates.currentCoordinates.length === 0 && "0.5",
+              cursor:
+                coordinates.currentCoordinates.length === 0
+                  ? "not-allowed"
+                  : "pointer",
+            }}
+            onClick={() => handleCoordinate("undo")}
+          >
+            Undo
+          </button>
+          <button
+            disabled={coordinates.poppedCoordinates.length === 0 && true}
+            style={{
+              opacity: coordinates.poppedCoordinates.length === 0 && "0.5",
+              cursor:
+                coordinates.poppedCoordinates.length === 0
+                  ? "not-allowed"
+                  : "pointer",
+            }}
+            onClick={() => handleCoordinate("redo")}
+          >
+            Redo
+          </button>
+        </div>
+        <h3>Click anywhere on below's board to see the magic!</h3>
+        <div />
       </div>
-      <button onClick={showResults}>Submit</button>
-      <div ref={resultsRef}></div>
+      <div className="click-area" onClick={handleClick}>
+        {coordinates.currentCoordinates.map((coordinate, index) => (
+          <div
+            key={index}
+            style={{
+              position: "absolute",
+              top: `${coordinate.y - 72}px`,
+              left: `${coordinate.x - 20}px`,
+              width: "10px",
+              height: "10px",
+              backgroundColor: "#eee",
+              borderRadius: "100%",
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 }
