@@ -1,92 +1,75 @@
 import { useState } from "react";
 
 function App() {
-  const [coordinates, setCoordinates] = useState({
-    currentCoordinates: [],
-    poppedCoordinates: [],
-  });
+  const initialBoard = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  ];
 
-  function handleClick(e) {
-    const newCurrentCoordinates = [...coordinates.currentCoordinates];
-    newCurrentCoordinates.push({ x: e.clientX, y: e.clientY });
+  const [board, setBoard] = useState(initialBoard);
+  const [isLoading, setIsLoading] = useState(false);
 
-    setCoordinates({
-      ...coordinates,
-      currentCoordinates: newCurrentCoordinates,
-    });
+  function handleChange(value, iIndex, jIndex) {
+    const newBoard = [...board];
+    newBoard[iIndex][jIndex] = Number(value);
+    setBoard(newBoard);
   }
 
-  function handleCoordinate(type) {
-    const newCurrentCoordinates = [...coordinates.currentCoordinates];
-    const newPoppedCoordinates = [...coordinates.poppedCoordinates];
+  async function solvePuzzle() {
+    setIsLoading(true);
 
-    const poppedCoordinate =
-      type === "undo"
-        ? newCurrentCoordinates.pop()
-        : newPoppedCoordinates.pop();
+    const response = await fetch(
+      "https://sudoku-solver3.p.rapidapi.com/sudokusolver/",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "X-RapidAPI-Key":
+            "bf7c697f2bmsh5141cf769d29ccap1908b7jsnc06fab634542",
+          "X-RapidAPI-Host": "sudoku-solver3.p.rapidapi.com",
+        },
+        body: `{"input":[${[].concat(...board)}]}`,
+      }
+    );
+    const responseJSON = await response.json();
+    const answer = responseJSON.answer;
 
-    type === "undo"
-      ? newPoppedCoordinates.push(poppedCoordinate)
-      : newCurrentCoordinates.push(poppedCoordinate);
+    const newBoard = [];
+    while (answer.length) newBoard.push(answer.splice(0, 9));
+    setBoard(newBoard);
 
-    if (!poppedCoordinate) return;
-
-    setCoordinates({
-      currentCoordinates: newCurrentCoordinates,
-      poppedCoordinates: newPoppedCoordinates,
-    });
+    setIsLoading(false);
   }
+
+  if (isLoading) return <h1>Loading...</h1>;
 
   return (
     <div className="app-container">
-      <div className="top">
-        <div className="buttons">
-          <button
-            disabled={coordinates.currentCoordinates.length === 0 && true}
-            style={{
-              opacity: coordinates.currentCoordinates.length === 0 && "0.5",
-              cursor:
-                coordinates.currentCoordinates.length === 0
-                  ? "not-allowed"
-                  : "pointer",
-            }}
-            onClick={() => handleCoordinate("undo")}
-          >
-            Undo
-          </button>
-          <button
-            disabled={coordinates.poppedCoordinates.length === 0 && true}
-            style={{
-              opacity: coordinates.poppedCoordinates.length === 0 && "0.5",
-              cursor:
-                coordinates.poppedCoordinates.length === 0
-                  ? "not-allowed"
-                  : "pointer",
-            }}
-            onClick={() => handleCoordinate("redo")}
-          >
-            Redo
-          </button>
-        </div>
-        <h3>Click anywhere on below's board to see the magic!</h3>
-        <div />
+      <div className="grid">
+        {board.map((iElement, iIndex) => {
+          return iElement.map((jElement, jIndex) => {
+            return (
+              <div key={jIndex} className="input-container">
+                <input
+                  type="text"
+                  value={String(jElement)}
+                  onChange={(e) => handleChange(e.target.value, iIndex, jIndex)}
+                  autoComplete="off"
+                />
+              </div>
+            );
+          });
+        })}
       </div>
-      <div className="click-area" onClick={handleClick}>
-        {coordinates.currentCoordinates.map((coordinate, index) => (
-          <div
-            key={index}
-            style={{
-              position: "absolute",
-              top: `${coordinate.y - 72}px`,
-              left: `${coordinate.x - 20}px`,
-              width: "10px",
-              height: "10px",
-              backgroundColor: "#eee",
-              borderRadius: "100%",
-            }}
-          />
-        ))}
-      </div>
+      <button onClick={solvePuzzle}>Solve</button>
+      <button onClick={() => setBoard(initialBoard)}>Reset</button>
     </div>
   );
 }

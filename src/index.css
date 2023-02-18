@@ -10,42 +10,56 @@ body {
   font-family: "Nunito", sans-serif;
   background-color: #222831;
   color: #eee;
+  padding: 2rem;
 }
 
-.app-container .top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
+.app-container {
+  width: fit-content;
 }
 
-h3 {
-  font-weight: normal;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  margin-bottom: 1rem;
 }
 
-.click-area {
-  position: fixed;
-  top: 4.5rem;
-  bottom: 1rem;
-  left: 1rem;
-  right: 1rem;
+.input-container {
+  padding: 5px;
+  border: 1px solid #eee;
+}
+
+input[type="text"] {
+  width: 32px;
+  outline: none;
+  border: none;
   background-color: #393e46;
+  color: #eee;
+  padding: 4px;
+  font-family: "Nunito", sans-serif;
   border-radius: 4px;
-  cursor: pointer;
-}
-
-.buttons {
-  display: flex;
-  gap: 8px;
+  font-size: 18px;
+  text-align: center;
 }
 
 button {
+  font-family: "Nunito", sans-serif;
+  border: none;
+  outline: none;
   background-color: #393e46;
   color: #eee;
   font-size: 18px;
-  border: none;
-  outline: none;
   padding: 5px 10px;
   border-radius: 4px;
-  font-family: "Nunito", sans-serif;
+  margin: 4px;
+  cursor: pointer;
+  transition: all 0.3s linear;
+}
+
+button:first-of-type {
+  margin-left: 0;
+}
+
+button:hover {
+  background-color: #eee;
+  color: #222831;
 }
