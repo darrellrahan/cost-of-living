@@ -16,7 +16,24 @@ body {
   padding: 2rem;
 }
 
-button {
+.form {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.select-width {
+  width: 400px;
+}
+
+.optional {
+  opacity: 0.5;
+  margin-top: 5px;
+  font-size: smaller;
+}
+
+.search-btn {
   font-family: "Nunito", sans-serif;
   background-color: #00adb5;
   color: #eee;
@@ -28,11 +45,23 @@ button {
   cursor: pointer;
 }
 
-.form {
+.chart-container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.bar-width {
+  width: 650px;
+  height: 325px;
+}
+
+.cost-container {
   display: flex;
-  align-items: baseline;
-  gap: 1rem;
-  margin-top: 2rem;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
 }
 
 .cost-data {
@@ -60,9 +89,79 @@ button {
   font-size: 18px;
 }
 
-.chart-container {
+.cost-value {
+  width: 900px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 0.25px solid #393e46;
+}
+
+.cost-loading {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+@media (max-width: 1000px) {
+  .logo-area {
+    font-size: 13px;
+  }
+
+  .form {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .select-width {
+    width: 360px;
+  }
+
+  .optional {
+    font-size: 11.5px;
+  }
+
+  .search-btn {
+    padding: 0.25rem 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .bar-width {
+    width: 350px;
+    height: 125px;
+  }
+
+  .cost-container {
+    gap: 1rem;
+  }
+
+  .cost-data.summary {
+    width: 358px;
+  }
+
+  .cost-label {
+    font-size: 14px;
+  }
+
+  .cost-value {
+    width: 325px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .cost-heading {
+    font-size: 1.25rem;
+  }
+
+  .cost-price {
+    font-size: 14px;
+  }
+
+  .cost-loading {
+    font-size: 1.5rem;
+  }
 }

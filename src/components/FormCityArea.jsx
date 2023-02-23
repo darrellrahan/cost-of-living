@@ -42,7 +42,7 @@ function FormCityArea() {
 
   return (
     <>
-      <div style={{ width: "400px" }}>
+      <div className="select-width">
         <Select
           isClearable
           options={cityData.cityOptions}
@@ -50,11 +50,13 @@ function FormCityArea() {
           noOptionsMessage={handleNoOptions}
           onChange={handleChange}
         />
-        <p style={{ opacity: "0.5", marginTop: "5px", fontSize: "smaller" }}>
+        <p className="optional">
           Optional - You can just go ahead and click on the search button.
         </p>
       </div>
-      <button onClick={handleSearch}>Search</button>
+      <button className="search-btn" onClick={handleSearch}>
+        Search
+      </button>
     </>
   );
 }

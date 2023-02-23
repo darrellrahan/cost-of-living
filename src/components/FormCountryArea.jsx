@@ -22,7 +22,7 @@ function FormCountryArea() {
   }
 
   return (
-    <div style={{ width: "400px" }}>
+    <div className="select-width">
       <Select
         options={countryData.countryOptions}
         placeholder="Select a country..."

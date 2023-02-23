@@ -8,8 +8,8 @@ https://darrellrahan-costofliving.netlify.app/
 
 ## Preview
 
-[![ss-1.jpg](https://i.postimg.cc/7YT479CX/ss-1.jpg)](https://postimg.cc/tYy8GhNV)
-[![ss-2.jpg](https://i.postimg.cc/DyVvxR3R/ss-2.jpg)](https://postimg.cc/s1cCX6XJ)
+[![image.png](https://i.postimg.cc/vmYZZr6B/image.png)](https://postimg.cc/xXZ2sb5D)
+[![image.png](https://i.postimg.cc/XYZgD5vr/image.png)](https://postimg.cc/TK6mKpgx)
 
 ## Tech Stack
 

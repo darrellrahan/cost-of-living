@@ -26,21 +26,9 @@ function CostResultArea() {
           {icon} {title}
         </h3>
         {data.map((current, index) => (
-          <div
-            key={index}
-            style={{
-              width: "900px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              margin: "1rem 0",
-              paddingBottom: "0.5rem",
-              borderBottom: "0.25px solid #393e46",
-            }}
-            className={index % 2 === 0 ? "default-bg" : "white-bg"}
-          >
+          <div key={index} className="cost-value">
             <span className="cost-label">{current.Cost}</span>{" "}
-            <span>{current.Value} USD</span>
+            <span className="cost-price">{current.Value} USD</span>
           </div>
         ))}
       </div>
@@ -49,29 +37,11 @@ function CostResultArea() {
 
   if (!costData) return;
   if (costData === "loading")
-    return (
-      <h1
-        style={{
-          position: "absolute",
-          left: "50%",
-          top: "50%",
-          transform: "translate(-50%, -50%)",
-        }}
-      >
-        Loading...
-      </h1>
-    );
+    return <h1 className="cost-loading">Loading...</h1>;
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "1.5rem",
-        marginTop: "2.5rem",
-      }}
-    >
-      <h1>
+    <div className="cost-container">
+      <h1 className="cost-heading">
         Cost of Living in{" "}
         {!costData["City Name"]
           ? costData["Country Name"]
@@ -79,9 +49,7 @@ function CostResultArea() {
       </h1>
       <div className="cost-data summary">
         <h3 className="cost-type">{<AiOutlineAlert />} Summary</h3>
-        <span className="cost-label" style={{ width: "1000px" }}>
-          {costData["Note"]}
-        </span>
+        <span className="cost-label">{costData["Note"]}</span>
       </div>
       {renderPrices(
         <RiRestaurantLine />,

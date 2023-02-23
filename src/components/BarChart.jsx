@@ -5,16 +5,16 @@ import Chart from "chart.js/auto";
 import { useGlobalContext } from "../context";
 
 function BarChart({ chartData }) {
-  const { costData } = useGlobalContext();
+  const { countryData, costData } = useGlobalContext();
 
-  if (costData) return;
+  if (costData || countryData.selectedCountry.value) return;
 
   Chart.register(CategoryScale);
 
   return (
     <div className="chart-container">
       <Bar
-        style={{ width: "650px", height: "325px" }}
+        className="bar-width"
         data={chartData}
         options={{
           plugins: {
