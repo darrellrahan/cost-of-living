@@ -14,6 +14,7 @@ https://github.com/darrellrahan/living-cost.git
 ## Tech Stack
 
 **Client:** React (HTML, CSS, JS)
+
 **API:** [Cities Cost of Living and Average Prices API](https://rapidapi.com/zyla-labs-zyla-labs-default/api/cities-cost-of-living-and-average-prices-api)
 
 ## Run Locally
