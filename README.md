@@ -6,7 +6,7 @@ A web app to search for a location's cost of living and average prices. Built wi
 
 https://darrellrahan-costofliving.netlify.app/
 
-## Screenshots
+## Preview
 
 [![ss-1.jpg](https://i.postimg.cc/7YT479CX/ss-1.jpg)](https://postimg.cc/tYy8GhNV)
 [![ss-2.jpg](https://i.postimg.cc/DyVvxR3R/ss-2.jpg)](https://postimg.cc/s1cCX6XJ)
